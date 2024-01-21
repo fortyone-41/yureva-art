@@ -1,0 +1,25 @@
+.contacts {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    align-items: center;
+}
+
+.logo {
+    cursor: pointer;
+}
+
+.wa {
+    -webkit-mask: url(wa.svg) no-repeat center;
+    mask: url(wa.svg) no-repeat center;
+}
+
+.inst {
+    -webkit-mask: url(inst.svg) no-repeat center;
+    mask: url(inst.svg) no-repeat center;
+}
+
+.vk {
+    -webkit-mask: url(vk.svg) no-repeat center;
+    mask: url(vk.svg) no-repeat center;
+}

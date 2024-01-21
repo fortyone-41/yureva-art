@@ -1,0 +1,68 @@
+.album {
+    display: grid;
+    grid-template-rows: 60px calc(100% - 60px);
+    height: 100%;
+    margin: 0px 10px 20px; 
+
+    @media(max-width: 1300px) {
+        height: 100vh;
+        width: 100vw;
+        padding: 5% 3%;
+        margin: 0;
+    }
+    
+
+    &-header {
+        font-family: 'Courier New', Courier, monospace;
+        display: flex;
+        gap: 30px;
+        * {
+            display: flex;
+            align-items: center;
+        }
+
+        a {
+            cursor: pointer;
+            color: black;
+        }
+    }
+    &-wrapper {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-gap: 20px;
+        width: calc(100% - 60px);
+        padding: 30px;
+        overflow: auto;
+
+        @media(max-width: 1300px) {
+            grid-template-columns: 1fr 1fr;
+            margin-bottom: 5%;
+        }
+
+        &::-webkit-scrollbar {
+            width: 7px;
+        }
+    
+        &::-webkit-scrollbar-track {
+            background: var(--scrollbarBgColor);
+            border-radius: var(--scrollbarBorderRadius);
+        }
+    
+        &::-webkit-scrollbar-thumb {
+            background-color: var(--scrollbarThumbColor);
+            border-radius: var(--scrollbarBorderRadius);
+            border: var(--scrollbarBorder);
+            background-image: linear-gradient(180deg,
+                    var(--scrollbarThumbColor) 0%,
+                    var(--scrollbarThumbColorSecond) 90%);
+        }
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 14px, rgba(0, 0, 0, 0.12) 0px -12px 20px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+            cursor: pointer;
+        }
+    }
+}

@@ -1,0 +1,31 @@
+.header {
+
+    display: grid;
+    grid-template-columns: 200px 1fr 300px;
+    gap: 20px;
+    height: 60px;
+    position: static;
+
+    &-logo {
+        object-fit: contain;
+        height: 100%;
+        max-height: 60px;
+    }
+
+    @media(max-width: 1300px) {
+        display: flex;
+        flex-direction: column;
+        height: auto;
+    }
+
+    &-navigation {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 40px;
+        @media(max-width: 1300px) {
+            display: flex;
+            flex-direction: column;
+        }
+    }
+}

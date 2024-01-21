@@ -1,0 +1,39 @@
+html {
+  overflow: hidden;
+}
+
+iframe#webpack-dev-server-client-overlay {
+  display: none !important
+}
+
+.root-component {
+  display: grid;
+  grid-template-rows: 60px calc(100vh - 60px);
+  grid-template-columns: 1fr;
+  height: 100vh;
+  background-color: rgba(142, 186, 225, .5);
+  justify-content: center;
+  padding: 0 10%;
+  width: 80vw;
+
+  @media(max-width: 1300px) {
+    grid-template-rows: 0px 1fr;
+    padding: 0;
+    width: 100vw;
+  }
+
+  &-content {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    padding: 40px 0;
+    width: 100%;
+    height: calc(100% - 40px);
+
+    @media (max-width: 1300px) {
+      height: unset;
+      padding: 0 !important;
+
+    }
+  }
+}

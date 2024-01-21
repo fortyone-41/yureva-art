@@ -1,0 +1,19 @@
+.orders {
+    display: flex;
+    flex-direction: column;
+    // gap: 10px;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+
+    @media(max-width: 1300px) {
+        height: 100vh;
+        padding: 3% 5%;
+    }
+
+    &-text {
+        height: 100%;
+        overflow-y: auto;
+        margin-bottom: 50px;
+    }
+}
