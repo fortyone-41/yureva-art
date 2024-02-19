@@ -161,8 +161,7 @@ function Carousel({ slides }) {
     const handleClick = useCallback((slide, offset) => {
         if (offset === 0) {
             setSelected(slide);
-        }
-        if (offset > 0) {
+        } else if (offset > 0) {
             dispatch({ type: "PREV" })
         } else {
             dispatch({ type: "NEXT" })
@@ -181,7 +180,13 @@ function Carousel({ slides }) {
                 <button onClick={() => dispatch({ type: "PREV" })}>›</button>
 
             </div>
-            <Modal isOpened={selected} onClose={() => setSelected()} image={slides[state.slideIndex].image} />
+            <Modal
+                isOpened={selected}
+                onClose={() => setSelected()}
+                image={slides[state.slideIndex].image}
+                onClickLeft={() => dispatch({ type: "NEXT" })}
+                onClickRight={() => dispatch({ type: "PREV" })}
+            />
         </>
     );
 }

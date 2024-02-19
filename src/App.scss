@@ -10,8 +10,8 @@ iframe#webpack-dev-server-client-overlay {
   display: grid;
   grid-template-rows: 60px calc(100vh - 60px);
   grid-template-columns: 1fr;
-  height: 100vh;
-  background-color: rgba(142, 186, 225, .5);
+  height: calc(var(--vh, 1vh) * 100);
+  background: linear-gradient(90deg, #aea4e3, #d3ffe8);
   justify-content: center;
   padding: 0 10%;
   width: 80vw;
@@ -28,11 +28,11 @@ iframe#webpack-dev-server-client-overlay {
     justify-content: center;
     padding: 40px 0;
     width: 100%;
-    height: calc(100% - 40px);
+    height: calc(var(--vh, 1vh) * 100 - 140px);
 
     @media (max-width: 1300px) {
-      height: unset;
-      padding: 0 !important;
+      height: calc(var(--vh, 1vh) * 100);
+      padding: 2% 0 !important;
 
     }
   }

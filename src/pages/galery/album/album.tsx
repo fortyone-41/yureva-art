@@ -20,6 +20,7 @@ const Image = ({ image, onClick }: ImageProps) => {
 
 const Album = ({ photos = [], title, onReturn }: Props) => {
     const [selected, setSelected] = useState("");
+    const [selectedIndex, setSelectedIndex] = useState(0);
     return <>
         <div className="album">
             <div className="album-header">
@@ -28,11 +29,19 @@ const Album = ({ photos = [], title, onReturn }: Props) => {
                 <h2>{title}</h2>
             </div>
             <div className="album-wrapper">
-                {photos.map(image => <Image key={image} onClick={() => setSelected(image)} image={image} />)}
+                {photos.map((image, index) => <Image key={image} onClick={() => { setSelected(image); setSelectedIndex(index) }} image={image} />)}
             </div>
         </div>
-        <Modal isOpened={!!selected} onClose={() => setSelected("")} image={selected} title="" />
+        <Modal
+            isOpened={!!selected}
+            onClose={() => setSelected("")}
+            image={selected} title=""
+            onClickImage={selectedIndex < photos.length - 1 ? () => {setSelected(photos[selectedIndex + 1]); setSelectedIndex(selectedIndex + 1)} : undefined}
+            onClickLeft={selectedIndex > 0 ? () => {setSelected(photos[selectedIndex - 1]); setSelectedIndex(selectedIndex - 1)} : undefined}
+            onClickRight={selectedIndex < photos.length - 1 ? () => {setSelected(photos[selectedIndex + 1]); setSelectedIndex(selectedIndex + 1)} : undefined}
+        />
     </>
 };
+// prevImage={index > 0 ? setSelected(photos[index-1]) : null} nextImage={index < photos.length - 1 ? photos[index + 1] : null}
 
 export { Album };

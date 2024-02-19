@@ -17,10 +17,13 @@ interface ModalProps {
     isOpened: boolean;
     card?: Card;
     onClose: () => void;
+    onClickRight?: () => void;
+    onClickLeft?: () => void;
+    onClickImage?: () => void;
 }
 
 function Modal(props: ModalProps) {
-    const { isOpened, onClose, content, topContent, title, actions, image, card } = props;
+    const { isOpened, onClose, onClickRight, onClickLeft, onClickImage, content, topContent, title, actions, image, card } = props;
 
     if (!isOpened) return null;
 
@@ -28,7 +31,9 @@ function Modal(props: ModalProps) {
         <div className="modal-wrapper" onClick={onClose}>
             {image ? <>
                 <div className="modal-wrapper-image" onClick={(event) => event.stopPropagation()}>
-                    <img src={image} />
+                    {onClickLeft && <div className="modal-wrapper-image-left" onClick={onClickLeft}>‹</div>}
+                    {onClickRight && <div className="modal-wrapper-image-right" onClick={onClickRight}>›</div>}
+                    <img style={{ cursor: "pointer" }} onClick={onClickImage} src={image} />
                     <div
                         className="modal-wrapper-close"
                         aria-label="close"
