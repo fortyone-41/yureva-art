@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.scss';
-import { About, Galery, Header, Main, Orders } from './pages';
+import { About, Galery, Header, Main, Orders, References } from './pages';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 function App() {
@@ -17,6 +17,7 @@ function App() {
             <Route path='/about' element={<About />} />
             <Route path='/gallery' element={<Galery />} />
             <Route path='/orders' element={<Orders />} />
+            <Route path='/references' element={<References />} />
           </Routes>
         </div>
       </div>

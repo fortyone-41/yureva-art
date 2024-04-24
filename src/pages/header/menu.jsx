@@ -33,18 +33,19 @@ const MenuLabel = styled.label`
 
 const NavBackground = styled.div`
   position: absolute;
-  top: 3%;
-  right: 3%;
+  top: 0;
+  right: 0;
   background-image: radial-gradient(
     ${COLORS.primaryDark},
     ${COLORS.primaryLight}
   );
-  height: 4rem;
-  width: 4rem;
-  border-radius: 50%;
+  height: ${(props) => (props.clicked ? '100vh' : '0vh')};
+  width: ${(props) => (props.clicked ? '100vw' : '0vw')};
+  /* border-radius: 50%; */
   z-index: 600;
-  transform: ${(props) => (props.clicked ? "scale(80)" : "scale(0)")};
-  transition: transform 0.8s;
+  /* transform: ${(props) => (props.clicked ? "scale(0)" : "scale(0)")}; */
+  /* transition: height 0.8s, width 0.8s; */
+  overflow: hidden;
 `;
 
 const Icon = styled.span`
@@ -91,13 +92,14 @@ const Icon = styled.span`
 const Navigation = styled.nav`
   @media(max-width: 1300px) {
     display: ${(props) => (props.clicked ? "block" : "none")};
-    height: 100vh;
+    height: calc(var(--vh, 1vh) * 100);
     position: fixed;
     top: 0;
     right: 0;
     z-index: 600;
-    width: ${(props) => (props.clicked ? "100%" : "0")};
+    width: ${(props) => (props.clicked ? "100vw" : "0")};
     opacity: ${(props) => (props.clicked ? "1" : "0")};
+    overflow: hidden;
   };
   transition: width 0.8s, opacity 0.8s;
   height: 100%;
@@ -200,6 +202,11 @@ function Menu() {
           <li>
             <ItemLink active={location.pathname === "/gallery"} onClick={handleClose} to="/gallery">
               Галерея
+            </ItemLink>
+          </li>
+          <li>
+            <ItemLink active={location.pathname === "/references"} onClick={handleClose} to="/references">
+              Референсы
             </ItemLink>
           </li>
           <li>
