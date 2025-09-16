@@ -16,4 +16,8 @@
         overflow-y: auto;
         margin-bottom: 50px;
     }
+    &-feedback-btn {
+        display: flex;
+        justify-content: center;
+    }
 }
