@@ -67,7 +67,7 @@ const Orders = () => {
                     СВЕТЛАНЫ ЮРЬЕВОЙ</i></b> – <b>НА ПРОСПЕКТЕ АЛЕКСАНДРОВСКОЙ ФЕРМЫ. Д. 2</b></p>
             <p>ЗАПИСЬ ПО ТЕЛЕФОНУ <a href="tel:+79811890747">+79811890747</a> (WHATSAPP, TELEGRAM)</p>
             <div className="orders-feedback-btn">
-                <Button onClick={textOutput} title="Обратная связь"></Button>
+                <Button onClick={textOutput} title="Обратная связь" />
             </div>
         </div>
         <Modal isOpened={false} onClose={() => { }} title="" card={{
