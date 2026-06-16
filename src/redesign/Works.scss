@@ -1,0 +1,318 @@
+/* ============================================================
+   SELECTED WORKS — главная галерея
+   Не сетка: вертикальный поток слотов, в каждом — одна работа,
+   выровненная влево / по центру / вправо разного размера.
+   ============================================================ */
+
+.works {
+  position: relative;
+  background: var(--paper);
+  padding: var(--space-section) clamp(24px, 6vw, 96px);
+}
+
+.works__head {
+  max-width: 1280px;
+  margin: 0 auto clamp(56px, 10vh, 120px);
+  text-align: center;
+}
+
+.works__eyebrow {
+  font-family: var(--sans);
+  font-size: var(--fs-small);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin: 0 0 14px;
+}
+
+.works__title {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: var(--fs-h2);
+  line-height: 1.02;
+  letter-spacing: -0.005em;
+  margin: 0;
+}
+
+.works__title em {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--ink-soft);
+}
+
+/* ---------- Поток слотов ---------- */
+.works__strip {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(80px, 14vh, 200px);
+}
+
+/* Один слот — это «акт» в скролле. */
+.works__item {
+  display: grid;
+  /* Три горизонтальные дорожки — left | center | right. */
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr) minmax(0, 1fr);
+  align-items: center;
+}
+
+.works__item--left   .works__figure { grid-column: 1 / span 2; justify-self: start; }
+.works__item--center .works__figure { grid-column: 2 / span 1; justify-self: center; }
+.works__item--right  .works__figure { grid-column: 2 / span 2; justify-self: end; }
+
+/* Кнопка-обёртка работы. */
+.works__figure {
+  appearance: none;
+  background: none;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  text-align: left;
+  color: inherit;
+  cursor: inherit;
+  position: relative;
+  display: block;
+}
+
+.works__figure--sm { width: clamp(220px, 30vw, 380px); }
+.works__figure--md { width: clamp(280px, 40vw, 520px); }
+.works__figure--lg { width: clamp(320px, 50vw, 680px); }
+
+/* Контейнер с зарезервированной aspect-ratio — без layout shift. */
+.works__media {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.works__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  transition: transform 1200ms cubic-bezier(0.22, 0.61, 0.36, 1);
+  filter: saturate(0.95);
+}
+
+/* Тёплая полупрозрачная подсветка на ховере. */
+.works__media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(232, 201, 184, 0.18); /* dusty rose, очень мягко */
+  mix-blend-mode: multiply;
+  opacity: 0;
+  transition: opacity 360ms ease;
+  pointer-events: none;
+}
+
+.works__figure:hover .works__media::after,
+.works__figure:focus-visible .works__media::after {
+  opacity: 1;
+}
+
+.works__figure:hover .works__media img,
+.works__figure:focus-visible .works__media img {
+  transform: scale(1.02);
+}
+
+/* Подпись работы — появляется НИЖЕ изображения, только на ховере. */
+.works__caption {
+  margin-top: 18px;
+  display: grid;
+  gap: 4px;
+  opacity: 0;
+  transform: translateY(-6px);
+  transition: opacity 300ms ease, transform 360ms ease;
+}
+
+.works__figure:hover .works__caption,
+.works__figure:focus-visible .works__caption {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.works__name {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: clamp(24px, 2.4vw, 36px);
+  line-height: 1.1;
+  color: var(--ink);
+  letter-spacing: -0.005em;
+}
+
+.works__meta {
+  font-family: var(--sans);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+/* На тач-устройствах подпись видна всегда — нет ховера. */
+@media (pointer: coarse) {
+  .works__caption {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---------- Появление при попадании в viewport ---------- */
+.works__figure {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 900ms ease, transform 1100ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.works__figure.is-in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .works__figure,
+  .works__media img,
+  .works__media::after,
+  .works__caption {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .works__figure.is-in-view { transform: none; }
+}
+
+/* ---------- Адаптив: на узких экранах одна центральная колонка ---------- */
+@media (max-width: 860px) {
+  .works__strip { gap: 80px; }
+
+  .works__item {
+    grid-template-columns: 1fr;
+  }
+  .works__item--left  .works__figure,
+  .works__item--center .works__figure,
+  .works__item--right .works__figure {
+    grid-column: 1 / -1;
+    justify-self: center;
+  }
+  .works__figure--sm,
+  .works__figure--md,
+  .works__figure--lg { width: min(86vw, 480px); }
+  .works__caption { text-align: center; }
+}
+
+/* ============================================================
+   VIEWER — полноэкранное представление работы
+   Не lightbox в классическом смысле: меняем контекст скролла,
+   а не выводим карточку поверх.
+   ============================================================ */
+
+.viewer {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  align-items: center;
+  padding: clamp(20px, 4vh, 48px) clamp(20px, 4vw, 64px);
+
+  background: rgba(250, 248, 244, 0.78);
+  backdrop-filter: blur(40px) saturate(1.05);
+  -webkit-backdrop-filter: blur(40px) saturate(1.05);
+
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 420ms ease;
+}
+
+.viewer.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.viewer__topbar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.viewer__close {
+  font-family: var(--sans);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink);
+  padding: 12px 18px;
+  border: 1px solid var(--ink);
+  border-radius: 999px;
+  transition: background 240ms ease, color 240ms ease;
+}
+
+.viewer__close:hover,
+.viewer__close:focus-visible {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.viewer__stage {
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+
+.viewer__stage img {
+  max-width: min(92vw, 1100px);
+  max-height: 78vh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+
+  transform: scale(0.985);
+  opacity: 0;
+  transition: opacity 520ms ease 80ms, transform 760ms cubic-bezier(0.22, 0.61, 0.36, 1) 80ms;
+}
+
+.viewer.is-open .viewer__stage img {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.viewer__meta {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 24px;
+  align-items: end;
+  padding-top: clamp(16px, 3vh, 28px);
+}
+
+.viewer__name {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: clamp(28px, 3.4vw, 48px);
+  line-height: 1.05;
+  letter-spacing: -0.005em;
+  margin: 0;
+}
+
+.viewer__sub {
+  font-family: var(--sans);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .viewer,
+  .viewer__stage img {
+    transition: none;
+  }
+  .viewer__stage img { transform: none; opacity: 1; }
+}
+
+/* Когда viewer открыт — основной поток заморожен. */
+body.is-viewer-open {
+  overflow: hidden;
+}

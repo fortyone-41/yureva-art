@@ -1,0 +1,220 @@
+/* ============================================================
+   ABOUT — «рука за работой»
+   Тёплый бумажный лист; портрет слева слегка повёрнут,
+   текст справа с большой буквицей; ниже — рукописные «пометки».
+   ============================================================ */
+
+.about {
+  background: var(--paper-warm);
+  padding: var(--space-section) clamp(24px, 6vw, 96px);
+  overflow: hidden;
+}
+
+.about__inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(280px, 0.85fr) minmax(0, 1fr);
+  gap: clamp(40px, 7vw, 120px);
+  align-items: start;
+}
+
+/* ---------- Левая колонка: портрет «как на столе» ---------- */
+.about__photo {
+  position: relative;
+  width: 100%;
+  max-width: 460px;
+  justify-self: end;
+  /* Лёгкий наклон, как будто фото бросили на стол. */
+  transform: rotate(-2.4deg);
+  transform-origin: 60% 50%;
+  /* Никаких box-shadow по брифу — глубина за счёт тонкой бумажной рамки. */
+}
+
+.about__photo::before {
+  /* Бумажная подложка под фото — чуть больше самой картинки. */
+  content: "";
+  position: absolute;
+  inset: -18px -18px -56px -18px;
+  background: var(--paper);
+  z-index: -1;
+}
+
+.about__photo-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+}
+
+.about__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  filter: saturate(0.92) contrast(0.98);
+}
+
+.about__photo-caption {
+  position: absolute;
+  left: 8px;
+  bottom: -42px;
+  font-family: var(--script);
+  font-size: 22px;
+  line-height: 1;
+  color: var(--ink);
+  transform: rotate(-1deg);
+}
+
+/* ---------- Правая колонка: подзаголовок + текст + факты ---------- */
+.about__text {
+  max-width: 56ch;
+  padding-top: 8px;
+}
+
+.about__eyebrow {
+  font-family: var(--sans);
+  font-size: var(--fs-small);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin: 0 0 clamp(20px, 3vh, 36px);
+}
+
+.about__title {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: var(--fs-h2);
+  line-height: 1.02;
+  letter-spacing: -0.005em;
+  margin: 0 0 clamp(28px, 4vh, 48px);
+  color: var(--ink);
+}
+
+.about__title em {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--ink-soft);
+}
+
+.about__bio p {
+  margin: 0 0 1em;
+  font-size: 17px;
+  line-height: 1.8;
+  color: var(--ink);
+}
+
+/* Буквица — первая буква первого абзаца, 4 строки в высоту. */
+.about__bio p:first-of-type::first-letter {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 5.4em;
+  line-height: 0.82;
+  float: left;
+  padding: 0.08em 0.12em 0 0;
+  color: var(--ink);
+}
+
+/* ---------- Рукописные «пометки» ---------- */
+.about__facts {
+  margin-top: clamp(36px, 6vh, 64px);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 28px 44px;
+  font-family: var(--script);
+  font-size: 28px;
+  line-height: 1;
+  color: var(--ink);
+}
+
+.about__facts li {
+  position: relative;
+  padding-bottom: 6px;
+}
+
+/* SVG-волнистое подчёркивание — каждый факт со своим лёгким разворотом. */
+.about__facts li::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: -4px;
+  bottom: -4px;
+  height: 8px;
+  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 8' preserveAspectRatio='none'><path d='M0 4 Q 15 0 30 4 T 60 4 T 90 4 T 120 4' fill='none' stroke='%231A1A18' stroke-width='1.4' stroke-linecap='round'/></svg>") repeat-x;
+  background-size: 120px 8px;
+  opacity: 0;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 700ms cubic-bezier(0.22, 0.61, 0.36, 1), opacity 300ms ease;
+}
+
+.about__facts li:nth-child(1) { transform: rotate(-0.8deg); }
+.about__facts li:nth-child(2) { transform: rotate(0.6deg); }
+.about__facts li:nth-child(3) { transform: rotate(-0.4deg); }
+.about__facts li:nth-child(4) { transform: rotate(0.9deg); }
+
+/* ---------- Появление при попадании в зону видимости ---------- */
+/* По умолчанию слегка смещены и прозрачны; класс .is-in-view выпускает. */
+.about__photo,
+.about__title,
+.about__bio,
+.about__facts {
+  opacity: 0;
+  transform: translateY(18px) rotate(var(--about-rotate, 0deg));
+  transition:
+    opacity 900ms ease,
+    transform 1100ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.about__photo { --about-rotate: -2.4deg; }
+
+.about.is-in-view .about__photo,
+.about.is-in-view .about__title,
+.about.is-in-view .about__bio,
+.about.is-in-view .about__facts {
+  opacity: 1;
+  transform: translateY(0) rotate(var(--about-rotate, 0deg));
+}
+/* Параллельная задержка — текст приходит чуть позже фото. */
+.about.is-in-view .about__title { transition-delay: 80ms; }
+.about.is-in-view .about__bio   { transition-delay: 180ms; }
+.about.is-in-view .about__facts { transition-delay: 320ms; }
+
+/* Подчёркивания у пометок рисуются последовательно. */
+.about.is-in-view .about__facts li::after {
+  opacity: 1;
+  transform: scaleX(1);
+}
+.about.is-in-view .about__facts li:nth-child(1)::after { transition-delay: 520ms; }
+.about.is-in-view .about__facts li:nth-child(2)::after { transition-delay: 660ms; }
+.about.is-in-view .about__facts li:nth-child(3)::after { transition-delay: 800ms; }
+.about.is-in-view .about__facts li:nth-child(4)::after { transition-delay: 940ms; }
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .about__photo,
+  .about__title,
+  .about__bio,
+  .about__facts,
+  .about__facts li::after {
+    opacity: 1;
+    transform: rotate(var(--about-rotate, 0deg));
+    transition: none;
+  }
+  .about__facts li::after { transform: scaleX(1); }
+}
+
+/* ---------- Мобильный стек ---------- */
+@media (max-width: 860px) {
+  .about__inner {
+    grid-template-columns: 1fr;
+    gap: 72px;
+  }
+  .about__photo {
+    justify-self: center;
+    max-width: 360px;
+  }
+  .about__text { max-width: none; }
+  .about__bio p:first-of-type::first-letter {
+    font-size: 4.6em;
+  }
+}

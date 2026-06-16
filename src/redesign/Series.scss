@@ -1,0 +1,251 @@
+/* ============================================================
+   SERIES — главы альбома; раскрываются inline.
+   Каждая глава — full-width «обложка» со своим приглушённым
+   фоном и небрежно разложенными миниатюрами. По клику —
+   аккордеон, разворачивающий полный список работ серии.
+   ============================================================ */
+
+.series {
+  background: var(--paper);
+  padding: var(--space-section) 0 0;
+}
+
+.series__head {
+  max-width: 1280px;
+  margin: 0 auto clamp(40px, 7vh, 88px);
+  padding: 0 clamp(24px, 6vw, 96px);
+  text-align: center;
+}
+
+.series__eyebrow {
+  font-family: var(--sans);
+  font-size: var(--fs-small);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin: 0 0 14px;
+}
+
+.series__title {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: var(--fs-h2);
+  line-height: 1.02;
+  margin: 0;
+}
+
+.series__title em {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--ink-soft);
+}
+
+/* ---------- Одна глава ---------- */
+.series__chapter {
+  --accent: var(--paper-warm);
+  background: var(--accent);
+  padding: clamp(72px, 12vh, 140px) 0;
+  /* overflow намеренно visible — иначе раскрытый контент может «обрезаться»
+     до того, как высота параграфа expand просчитается. */
+}
+
+.series__opener {
+  appearance: none;
+  background: none;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  cursor: inherit;
+  color: var(--ink);
+
+  max-width: 1280px;
+  margin-inline: auto;
+  padding-inline: clamp(24px, 6vw, 96px);
+  width: 100%;
+
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 0.85fr);
+  align-items: center;
+  gap: clamp(40px, 6vw, 96px);
+  text-align: left;
+}
+
+.series__copy { display: grid; gap: clamp(12px, 2vh, 20px); }
+
+.series__count {
+  font-family: var(--sans);
+  font-size: 11px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.series__name {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: clamp(40px, 5.6vw, 88px);
+  line-height: 0.98;
+  letter-spacing: -0.005em;
+  margin: 0;
+}
+
+.series__subtitle {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(18px, 1.8vw, 24px);
+  color: var(--ink-soft);
+  margin: 0;
+}
+
+.series__cta {
+  margin-top: clamp(12px, 2vh, 24px);
+  font-family: var(--sans);
+  font-size: 11px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--ink);
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  transition: gap 320ms ease;
+}
+
+.series__cta::after {
+  content: "";
+  width: 24px;
+  height: 1px;
+  background: var(--ink);
+  transition: transform 360ms ease, width 360ms ease;
+}
+
+.series__chapter.is-open .series__cta::after {
+  transform: rotate(90deg);
+  width: 24px;
+}
+
+.series__opener:hover .series__cta { gap: 16px; }
+
+/* ---------- Превью на обложке: 3 миниатюры внахлёст ---------- */
+.series__previews {
+  position: relative;
+  height: clamp(220px, 32vh, 360px);
+}
+
+.series__preview {
+  position: absolute;
+  top: 0;
+  width: 56%;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  transition: transform 500ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.series__preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.series__preview:nth-child(1) { left: 0;   top: 6%;  transform: rotate(-2.6deg); }
+.series__preview:nth-child(2) { left: 26%; top: 0;   transform: rotate(1.4deg); width: 50%; }
+.series__preview:nth-child(3) { left: 50%; top: 12%; transform: rotate(-1.1deg); width: 50%; }
+
+.series__opener:hover .series__preview:nth-child(1) { transform: rotate(-3.4deg) translate(-6px, -4px); }
+.series__opener:hover .series__preview:nth-child(2) { transform: rotate(2.0deg)  translate(0, -6px); }
+.series__opener:hover .series__preview:nth-child(3) { transform: rotate(-1.6deg) translate(8px, -2px); }
+
+/* ---------- Раскрывающаяся часть ---------- */
+/* Высота анимируется JS-измерением scrollHeight (см. SeriesChapter).
+   Здесь только overflow + transition; начальное height: 0 ставит inline-стиль. */
+.series__expand {
+  overflow: hidden;
+  transition: height 720ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.series__works {
+  max-width: 1280px;
+  margin: clamp(48px, 8vh, 96px) auto 0;
+  padding: 0 clamp(24px, 6vw, 96px);
+  /* CSS columns даёт естественную masonry без equal-size клеток. */
+  column-count: 3;
+  column-gap: clamp(16px, 2.4vw, 28px);
+}
+
+@media (max-width: 1024px) { .series__works { column-count: 2; } }
+@media (max-width: 600px)  { .series__works { column-count: 1; } }
+
+.series__work {
+  display: block;
+  break-inside: avoid;
+  margin: 0 0 clamp(16px, 2.4vw, 28px);
+  overflow: hidden;
+  width: 100%;
+  cursor: inherit;
+}
+
+.series__work img {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: transform 700ms cubic-bezier(0.22, 0.61, 0.36, 1), filter 400ms ease;
+  filter: saturate(0.95);
+}
+
+.series__work:hover img {
+  transform: scale(1.025);
+  filter: saturate(1.0);
+}
+
+/* Главы видны сразу — без fade-in.
+   IO для появления убран как ненадёжный после якорной навигации:
+   после клика по #series иногда наблюдатель не успевал отметить пересечение,
+   и весь блок оставался невидимым. Раскрытие/закрытие при этом плавное. */
+
+@media (prefers-reduced-motion: reduce) {
+  .series__expand,
+  .series__preview,
+  .series__work img {
+    transition: none;
+    transform: none;
+  }
+}
+
+/* ---------- Адаптив: на узких экранах опера в столбик ---------- */
+@media (max-width: 860px) {
+  .series__opener {
+    grid-template-columns: 1fr;
+    gap: clamp(28px, 6vh, 56px);
+  }
+
+  /* На мобильной отказываемся от абсолютного позиционирования —
+     превью встают равным горизонтальным рядом с устойчивым размером. */
+  .series__previews {
+    position: static;
+    height: auto;
+    max-width: 480px;
+    width: 100%;
+    margin-inline: auto;
+    display: flex;
+    gap: 10px;
+  }
+
+  .series__preview,
+  .series__preview:nth-child(1),
+  .series__preview:nth-child(2),
+  .series__preview:nth-child(3) {
+    position: static;
+    width: auto;
+    top: auto;
+    left: auto;
+    flex: 1 1 0;
+    aspect-ratio: 4 / 5;
+    transform: rotate(0deg);
+  }
+
+  /* Лёгкий ховер-эффект сохраняем, но без translate (нет места). */
+  .series__opener:hover .series__preview { transform: rotate(0deg); }
+
+  .series__copy { order: -1; }
+}

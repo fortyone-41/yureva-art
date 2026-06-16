@@ -1,0 +1,132 @@
+/* ============================================================
+   PROCESS — киноплёнка из мастерской.
+   На десктопе — горизонтальный поток с scroll-snap.
+   На мобильном — вертикальная лента кадров.
+   ============================================================ */
+
+.process {
+  background: var(--paper);
+  padding: var(--space-section) 0;
+  overflow: hidden;
+}
+
+.process__head {
+  max-width: 1280px;
+  margin: 0 auto clamp(56px, 8vh, 96px);
+  padding: 0 clamp(24px, 6vw, 96px);
+  text-align: center;
+}
+
+.process__eyebrow {
+  font-family: var(--sans);
+  font-size: var(--fs-small);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin: 0 0 14px;
+}
+
+.process__title {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: var(--fs-h2);
+  line-height: 1.02;
+  margin: 0;
+}
+
+.process__title em {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--ink-soft);
+}
+
+/* ---------- Киноплёнка: горизонтальный snap-скролл ---------- */
+.process__strip {
+  display: flex;
+  align-items: flex-start;
+  gap: clamp(28px, 4vw, 72px);
+  overflow-x: auto;
+  overflow-y: visible;
+  scroll-snap-type: x mandatory;
+  scroll-padding-left: clamp(24px, 6vw, 96px);
+  /* Запас сверху и снизу под смещения offset’ов. */
+  padding: 96px clamp(24px, 6vw, 96px) 64px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: var(--ink-faint) transparent;
+}
+
+.process__strip::-webkit-scrollbar { height: 6px; }
+.process__strip::-webkit-scrollbar-thumb {
+  background: var(--ink-faint);
+  border-radius: 3px;
+}
+.process__strip::-webkit-scrollbar-track { background: transparent; }
+
+/* ---------- Кадр ---------- */
+.process__frame {
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+  width: clamp(260px, 30vw, 420px);
+  margin: 0;
+  /* offset выставляет ритм «плёнки» (см. data-attrs в JSX). */
+  transform: translateY(var(--offset, 0px));
+  opacity: 0;
+  transition:
+    opacity 900ms ease,
+    transform 1100ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.process__frame.is-in-view {
+  opacity: 1;
+}
+
+.process__media {
+  width: 100%;
+  overflow: hidden;
+  background: var(--paper-warm);
+}
+
+.process__media img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  filter: saturate(0.92);
+}
+
+.process__caption {
+  margin: 18px 4px 0;
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(14px, 1.2vw, 16px);
+  line-height: 1.45;
+  color: var(--ink-soft);
+  max-width: 36ch;
+}
+
+/* ---------- Reduced motion / адаптив ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .process__frame {
+    opacity: 1;
+    transform: translateY(0);
+    transition: none;
+  }
+}
+
+@media (max-width: 860px) {
+  .process__strip {
+    flex-direction: column;
+    overflow-x: visible;
+    align-items: center;
+    padding: 0 clamp(24px, 6vw, 96px);
+    gap: 56px;
+    scroll-snap-type: none;
+  }
+  .process__frame {
+    width: 100%;
+    max-width: 480px;
+    transform: translateY(0) !important;
+  }
+}
