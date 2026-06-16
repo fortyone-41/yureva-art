@@ -11,6 +11,10 @@
 # production
 /build
 
+# архивы сборки (не коммитим тяжёлые файлы)
+*.rar
+build.rar
+
 # misc
 .DS_Store
 .env.local

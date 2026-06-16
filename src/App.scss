@@ -1,39 +1,107 @@
+/* ============================================================
+   Global redesign tokens, typography, and base styles.
+   Each section's own styles live next to its component.
+   ============================================================ */
+
+:root {
+  /* Palette */
+  --paper:        #FAF8F4;
+  --paper-warm:   #F5F0E8;
+  --rose:         #E8C9B8;
+  --sage:         #C8D5C0;
+  --ink:          #1A1A18;
+  --ink-soft:     rgba(26, 26, 24, 0.62);
+  --ink-faint:    rgba(26, 26, 24, 0.16);
+
+  /* Typography */
+  --serif:    "Cormorant Garamond", "Georgia", "Times New Roman", serif;
+  --sans:     "Inter", "Helvetica Neue", "Arial", sans-serif;
+  --script:   "Caveat", "Bradley Hand", "Comic Sans MS", cursive;
+
+  /* Type scale (desktop) */
+  --fs-display: clamp(64px, 10vw, 132px);
+  --fs-h2:      clamp(40px, 5.5vw, 84px);
+  --fs-body:    16px;
+  --fs-small:   12px;
+
+  /* Rhythm */
+  --space-section: clamp(96px, 14vh, 180px);
+}
+
 html {
-  overflow: hidden;
+  scroll-behavior: smooth;
+  background: var(--paper);
 }
 
-iframe#webpack-dev-server-client-overlay {
-  display: none !important
+body {
+  font-family: var(--sans);
+  font-size: var(--fs-body);
+  line-height: 1.8;
+  color: var(--ink);
+  background: var(--paper);
+  min-height: 100vh;
+  overflow-x: hidden;
+
+  /* Custom ink-dot cursor on fine pointers only. */
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'><circle cx='8' cy='8' r='3' fill='%231A1A18'/></svg>") 8 8, auto;
 }
 
-.root-component {
-  display: grid;
-  grid-template-rows: 60px calc(100vh - 60px);
-  grid-template-columns: 1fr;
-  height: calc(var(--vh, 1vh) * 100);
-  background: linear-gradient(90deg, #aea4e3, #d3ffe8);
-  justify-content: center;
-  padding: 0 10%;
-  width: 80vw;
+@media (pointer: coarse) {
+  body { cursor: auto; }
+}
 
-  @media(max-width: 1300px) {
-    grid-template-rows: 0px 1fr;
-    padding: 0;
-    width: 100vw;
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
   }
+}
 
-  &-content {
-    align-items: center;
-    display: flex;
-    justify-content: center;
-    padding: 40px 0;
-    width: 100%;
-    height: calc(var(--vh, 1vh) * 100 - 140px);
+/* Selection lifts the ink off the paper. */
+::selection {
+  background: var(--rose);
+  color: var(--ink);
+}
 
-    @media (max-width: 1300px) {
-      height: calc(var(--vh, 1vh) * 100);
-      padding: 2% 0 !important;
+/* Site shell */
+.site {
+  position: relative;
+  width: 100%;
+  overflow: hidden; /* contains horizontal drift in sections */
+}
 
-    }
-  }
+/* Якорные секции — отступ под фиксированный nav при scroll-to. */
+section[id] {
+  scroll-margin-top: 96px;
+}
+
+/* Бумажный шум — один на весь сайт, накладывается как фон в .paper. */
+.paper {
+  position: relative;
+  isolation: isolate;
+}
+
+.paper::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.10 0 0 0 0 0.10 0 0 0 0 0.09 0 0 0 0.22 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  background-size: 220px 220px;
+  opacity: 0.45;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+/* Small-caps accent label */
+.eyebrow {
+  font-family: var(--sans);
+  font-size: var(--fs-small);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
 }

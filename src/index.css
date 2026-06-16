@@ -1,42 +1,45 @@
+/* Minimal global reset — the redesign owns the rest. */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  padding: 0;
+}
+
+body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  height: calc(100vh);
-  width: calc(100vw);
+  text-rendering: optimizeLegibility;
 }
 
-:root {
-  --scrollbarBgColor: rgba(0, 0, 0, 0.05);
-  --scrollbarThumbColor: rgba(0, 0, 0, 0.15);
-  --scrollbarThumbColorSecond: rgba(255, 255, 255, 0.7);
-  --scrollbarWidth: 16px;
-  --scrollbarBorder: 0 solid var(--scrollbarBgColor);
-  --scrollbarBorderRadius: calc(var(--scrollbarWidth) / 4);
+img,
+picture {
+  display: block;
+  max-width: 100%;
 }
 
-*::-webkit-scrollbar {
-  width: var(--scrollbarWidth);
-}
-*::-webkit-scrollbar-track {
-  background: var(--scrollbarBgColor);
-  border-radius: var(--scrollbarBorderRadius);
-}
-*::-webkit-scrollbar-thumb {
-  background-color: var(--scrollbarThumbColor);
-  border-radius: var(--scrollbarBorderRadius);
-  border: var(--scrollbarBorder);
-  background-image: linear-gradient(
-    180deg,
-    var(--scrollbarThumbColor) 0%,
-    var(--scrollbarThumbColorSecond) 90%
-  );
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }

@@ -1,0 +1,228 @@
+/* ============================================================
+   HERO — full-viewport opening
+   The unrolling canvas begins here.
+   ============================================================ */
+
+.hero {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--paper);
+}
+
+.hero__image-wrap {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.hero__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  /* Initial slight zoom — the scroll-driven animation eases it back. */
+  transform: scale(calc(1.08 - 0.08 * var(--hero-progress, 0)));
+  transform-origin: 50% 45%;
+  will-change: transform;
+}
+
+/* Bottom edge fades into the paper so the scroll feels continuous. */
+.hero__image-wrap::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 28vh;
+  background: linear-gradient(
+    to bottom,
+    rgba(250, 248, 244, 0) 0%,
+    rgba(250, 248, 244, 0.65) 55%,
+    var(--paper) 100%
+  );
+  pointer-events: none;
+}
+
+/* The overlay block holding name + tagline. */
+.hero__overlay {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  /* Сетка с явными «полками»: углы для меток, центр-низ для имени. */
+  display: grid;
+  grid-template-rows: auto 1fr auto auto;
+  grid-template-columns: 1fr 1fr;
+  padding: clamp(28px, 5vh, 56px) clamp(24px, 6vw, 96px) clamp(96px, 14vh, 140px);
+  pointer-events: none;
+}
+
+.hero__overlay > * { pointer-events: auto; }
+
+/* ---------- Угловые метки ---------- */
+.hero__mark {
+  font-family: var(--sans);
+  font-size: 11px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--ink);
+  mix-blend-mode: multiply;
+  opacity: 0;
+  animation: hero-mark-in 1000ms ease-out 600ms forwards;
+}
+
+.hero__mark--tl { grid-column: 1; grid-row: 1; justify-self: start; }
+.hero__mark--tr { grid-column: 2; grid-row: 1; justify-self: end; }
+.hero__mark--br { grid-column: 2; grid-row: 3; justify-self: end; align-self: end; }
+
+.hero__name {
+  grid-column: 1 / -1;
+  grid-row: 3;
+  align-self: end;
+  justify-self: start;
+  margin: 0;
+  font-family: var(--serif);
+  font-weight: 500;
+  /* Имя крупнее — занимает воздух как «подпись на холсте». */
+  font-size: clamp(72px, 11.5vw, 168px);
+  line-height: 0.92;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  mix-blend-mode: multiply;
+  opacity: 0;
+  transform: translateY(12px);
+  animation: hero-name-in 1400ms cubic-bezier(0.22, 0.61, 0.36, 1) 200ms forwards;
+}
+
+.hero__name span {
+  display: block;
+}
+
+.hero__name span + span {
+  font-style: italic;
+  font-weight: 400;
+  padding-left: 0.6em;
+}
+
+.hero__tagline {
+  grid-column: 1 / -1;
+  grid-row: 4;
+  justify-self: start;
+  margin: clamp(16px, 2.4vh, 28px) 0 0;
+  font-family: var(--sans);
+  font-size: var(--fs-small);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  mix-blend-mode: multiply;
+  opacity: 0;
+  animation: hero-tagline-in 1200ms ease-out 800ms forwards;
+}
+
+/* ---------- Индикатор «листайте вниз» ---------- */
+/* Курсивная подпись + чернильная капля, стекающая вниз.
+   Намеренно крупнее и заметнее, чем безличный «scroll». */
+.hero__cue {
+  position: absolute;
+  right: clamp(24px, 6vw, 96px);
+  bottom: clamp(24px, 5vh, 48px);
+  z-index: 2;
+  display: grid;
+  justify-items: end;
+  gap: 14px;
+  color: var(--ink);
+  mix-blend-mode: multiply;
+  opacity: 0;
+  animation: hero-cue-in 800ms ease-out 1600ms forwards;
+}
+
+.hero__cue-text {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(18px, 1.6vw, 22px);
+  line-height: 1;
+}
+
+/* Капля чернил: тонкая линия, «стекающая» сверху вниз. */
+.hero__cue::after {
+  content: "";
+  display: block;
+  width: 1px;
+  height: 56px;
+  background: var(--ink);
+  opacity: 0.55;
+  transform: scaleY(0);
+  transform-origin: top center;
+  animation: hero-cue-drip 2.8s cubic-bezier(0.55, 0, 0.55, 1) 2.4s infinite;
+}
+
+/* Sentinel for the IntersectionObserver hook. */
+.hero__sentinel {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+}
+
+/* Keyframes */
+@keyframes hero-name-in {
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes hero-tagline-in {
+  to { opacity: 1; }
+}
+@keyframes hero-mark-in {
+  to { opacity: 1; }
+}
+@keyframes hero-cue-in {
+  to { opacity: 1; }
+}
+/* Капля: рисуется сверху вниз, потом «стекает» — переключение transform-origin
+   создаёт эффект движения чернил по странице. */
+@keyframes hero-cue-drip {
+  0%   { transform: scaleY(0); transform-origin: top center; opacity: 0; }
+  20%  { opacity: 0.55; }
+  45%  { transform: scaleY(1); transform-origin: top center; opacity: 0.55; }
+  55%  { transform: scaleY(1); transform-origin: bottom center; opacity: 0.55; }
+  85%  { transform: scaleY(0); transform-origin: bottom center; opacity: 0; }
+  100% { transform: scaleY(0); transform-origin: bottom center; opacity: 0; }
+}
+
+/* Honor reduced motion. */
+@media (prefers-reduced-motion: reduce) {
+  .hero__name,
+  .hero__tagline,
+  .hero__mark,
+  .hero__cue {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+  .hero__cue::after { animation: none; transform: scaleY(1); }
+  .hero__image { transform: none; }
+}
+
+/* Narrow screens: less aggressive crop, smaller padding. */
+@media (max-width: 640px) {
+  .hero__overlay {
+    padding-bottom: clamp(112px, 16vh, 160px);
+  }
+  .hero__name {
+    font-size: clamp(56px, 16vw, 100px);
+  }
+  .hero__name span + span {
+    padding-left: 0;
+  }
+  /* На узких экранах правые верхние/нижние метки могут мешать. */
+  .hero__mark--tr,
+  .hero__mark--br { display: none; }
+  .hero__cue {
+    right: 50%;
+    transform: translateX(50%);
+  }
+}

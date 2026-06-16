@@ -1,5 +1,6 @@
+import { title } from "process";
 import { Cards, Modal } from "../../components";
-
+import { Button } from "../../components/button/button";
 import "./orders.scss";
 
 const cards = [{
@@ -19,6 +20,10 @@ const cards = [{
 
 
 const Orders = () => {
+    const textOutput = () => {
+        const text = prompt()
+        console.log(text)
+    }
     return <div className="orders">
         {/* <Cards items={cards} /> */}
         <div className="orders-text">
@@ -54,13 +59,16 @@ const Orders = () => {
                 произведение в технике масляной или акриловой живописи на холсте.</p>
             <h4>Занятия со взрослыми планируется проводить также индивидуально.</h4>
             <h5>Продолжительность мастер-класса – 3 часа.</h5>
-            <p> Стоимость – 2300 рублей за 1 участника.</p>
+            <p> Стоимость – 2600 рублей за 1 участника.</p>
             <p>В стоимость входят все расходные материалы, включая холст.
                 ЕСЛИ ВЫ ХОТИТЕ
                 ОЩУТИТЬ СЕБЯ ТВОРЦОМ, СПОСОБНЫМ СОЗДАТЬ СОБСТВЕННОЕ
                 ХУДОЖЕСТВЕННОЕ ПРОИЗВЕДЕНИЕ, ПРИГЛАШАЮ ВАС В <b><i>АРТ-СТУДИЮ
                     СВЕТЛАНЫ ЮРЬЕВОЙ</i></b> – <b>НА ПРОСПЕКТЕ АЛЕКСАНДРОВСКОЙ ФЕРМЫ. Д. 2</b></p>
             <p>ЗАПИСЬ ПО ТЕЛЕФОНУ <a href="tel:+79811890747">+79811890747</a> (WHATSAPP, TELEGRAM)</p>
+            <div className="orders-feedback-btn">
+                <Button onClick={textOutput} title="Обратная связь" />
+            </div>
         </div>
         <Modal isOpened={false} onClose={() => { }} title="" card={{
             title: "Запись на мастеркласс",
