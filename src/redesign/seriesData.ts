@@ -56,7 +56,7 @@ import pg_7 from "../images/galery/portrait/graph/7.jpg";
 import pg_8 from "../images/galery/portrait/graph/8.jpg";
 import pg_9 from "../images/galery/portrait/graph/9.jpg";
 
-/* ----------- Этюды и зарисовки ----------- */
+/* ----------- Мастер-классы ----------- */
 import life_1 from "../images/galery/life/1.jpg";
 import life_2 from "../images/galery/life/2.jpg";
 import life_3 from "../images/galery/life/3.jpg";
@@ -176,27 +176,27 @@ export const seriesList: Series[] = [
   },
   {
     id: "studies",
-    title: "Этюды и зарисовки",
+    title: "Мастер-классы",
     subtitle: "Из мастерской и с натуры",
     count: 11,
     accent: "#E5DCC8",
     previews: [
-      { src: life_1, alt: "Этюд — 1" },
-      { src: sp_2,   alt: "Этюд — 2" },
-      { src: sp_5,   alt: "Этюд — 3" },
+      { src: life_1, alt: "Мастер-класс — 1" },
+      { src: sp_2,   alt: "Мастер-класс — 2" },
+      { src: sp_5,   alt: "Мастер-класс — 3" },
     ],
     works: [
-      { src: life_1, alt: "Этюд" },
-      { src: life_2, alt: "Этюд" },
-      { src: life_3, alt: "Этюд" },
-      { src: sp_1,   alt: "Этюд" },
-      { src: sp_2,   alt: "Этюд" },
-      { src: sp_3,   alt: "Этюд" },
-      { src: sp_4,   alt: "Этюд" },
-      { src: sp_5,   alt: "Этюд" },
-      { src: sp_8,   alt: "Этюд" },
-      { src: sp_9,   alt: "Этюд" },
-      { src: sp_10,  alt: "Этюд" },
+      { src: life_1, alt: "Мастер-класс" },
+      { src: life_2, alt: "Мастер-класс" },
+      { src: life_3, alt: "Мастер-класс" },
+      { src: sp_1,   alt: "Мастер-класс" },
+      { src: sp_2,   alt: "Мастер-класс" },
+      { src: sp_3,   alt: "Мастер-класс" },
+      { src: sp_4,   alt: "Мастер-класс" },
+      { src: sp_5,   alt: "Мастер-класс" },
+      { src: sp_8,   alt: "Мастер-класс" },
+      { src: sp_9,   alt: "Мастер-класс" },
+      { src: sp_10,  alt: "Мастер-класс" },
     ],
   },
 ];

@@ -4,7 +4,7 @@ import "./Nav.scss";
 const links = [
   { href: "#about",   label: "Художник" },
   { href: "#works",   label: "Работы" },
-  { href: "#series",  label: "Серии" },
+  { href: "#series",  label: "Альбомы" },
   { href: "#process", label: "Процесс" },
   { href: "#contact", label: "Контакты" },
 ];
