@@ -74,9 +74,8 @@ const SeriesChapter = ({ s, isOpen, onToggle }: ChapterProps) => {
         onClick={onToggle}
       >
         <div className="series__copy">
-          <span className="series__count">{s.count} работ в серии</span>
+          <span className="series__count">{s.count} работ в альбоме</span>
           <h3 className="series__name">{s.title}</h3>
-          <p className="series__subtitle">{s.subtitle}</p>
           <span className="series__cta">
             {isOpen ? "свернуть" : "посмотреть всё"}
           </span>
@@ -96,7 +95,7 @@ const SeriesChapter = ({ s, isOpen, onToggle }: ChapterProps) => {
         ref={expandRef}
         className="series__expand"
         role="region"
-        aria-label={`Серия «${s.title}»`}
+        aria-label={`Альбом «${s.title}»`}
         // Стартовое значение — свёрнуто. Дальше управляет эффект.
         style={{ height: 0 }}
       >
@@ -120,9 +119,8 @@ const Series = () => {
   return (
     <section className="series" id="series" aria-labelledby="series-title">
       <header className="series__head">
-        <p className="series__eyebrow">Серии</p>
         <h2 id="series-title" className="series__title">
-          Главы <em>альбома</em>
+          Альбомы
         </h2>
       </header>
 
